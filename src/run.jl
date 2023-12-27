@@ -8,6 +8,3 @@ struct Run
         new(timestep, steps)
     end
 end
-
-function run!(atoms::Atoms, run::Run, neighbor::NeighborSettings)
-end
