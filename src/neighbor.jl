@@ -1,10 +1,10 @@
-export Neighbor, updateneighbors!
+export Neighbor, reneighbor!
 
 struct Neighbor
-    cutoff::float
-    updateevery::Integer
+    cutoff <: float
+    updateevery <: Integer
 end
 
-function updateneighbors!(atoms::Atoms)
+function reneighbor!(atoms::Atoms)
 
 end
