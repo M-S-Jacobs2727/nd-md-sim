@@ -1,0 +1,35 @@
+---
+dimensions: 3 # default
+device: cpu # default
+atomTypes:
+  - 1
+box:
+  shape: ortho # default
+  bounds: [0., 10., 0., 10., 0., 10.]
+  pbc: pppppp # default
+neighbor:
+  cutoff: 0.3
+  updateevery: 5
+atoms:
+  - types: ..
+    fill:
+      region: box # default
+      lattice: random # or fcc, hcp, bcc, cu, etc.
+      density: 0.85 # or cellLength or cellDimensions
+    velocity:
+      temperature: 3.0
+      seed: 98634086
+potentials:
+  atomic:
+    - type: LJCut
+      atomTypes:
+        - ..
+        - ..
+      sigma: 1.0
+      epsilon: 1.0
+      rcut: 2.5
+constraints:
+  - nve
+run:
+  timestep: 0.005
+  steps: 1_000_000
