@@ -1,4 +1,4 @@
-name = "nDMolecularDynamicsSimulator"
+name = "JMD"
 uuid = "70e36eea-5a6d-4842-81b1-bf4c02591999"
 authors = ["Michael Jacobs <M.S.Jacobs2727@gmail.com>"]
 version = "0.1.0"

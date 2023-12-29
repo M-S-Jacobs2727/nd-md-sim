@@ -1,5 +1,5 @@
-module nDMolecularDynamicsSimulator
-
+module JMD
+using Distributed
 @everywhere using SharedArrays
 
 @everywhere include("atoms.jl")
