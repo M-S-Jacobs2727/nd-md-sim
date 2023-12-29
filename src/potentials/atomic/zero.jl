@@ -1,4 +1,4 @@
-export force!, ZeroAtomic
+export ZeroAtomic
 
 struct ZeroAtomic <: AtomicPotential end
 

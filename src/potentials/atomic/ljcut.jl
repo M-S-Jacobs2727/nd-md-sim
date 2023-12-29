@@ -1,4 +1,4 @@
-export LJCut, force!
+export LJCut
 
 struct LJCut <: AtomicPotential
     sigma::float
