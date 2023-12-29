@@ -1,23 +1,45 @@
-export Atoms
+struct Atoms{U <: Unsigned, F <: AbstractFloat}
+    natoms::U
+    dim::U
+    ids::Vector{U}
+    types::Vector{U}
+    masses::Vector{F}
+    positions::Matrix{F}
+    velocities::Matrix{F}
+    forces::Matrix{F}
+    neighbors::Vector{Set{U}}
+    function Atoms{U, F}(
+        natoms::U,
+        dim::U,
+        ids::Vector{U},
+        types::Vector{U},
+        masses::Vector{F},
+        positions::Matrix{F},
+        velocities::Matrix{F},
+        forces::Matrix{F},
+        neighbors::Vector{Set{U}},
+    ) where U <: Unsigned where F <: AbstractFloat
+        (1 <= dim <= 6) || throw(ArgumentError("Number of dimensions must be between 1 and 6 inclusive."))
 
-struct Atoms{T1 <: Unsigned, T2 <: AbstractFloat}
-    natoms::T1
-    dim::T1
-    ids::Vector{T1}
-    types::Vector{T1}
-    positions::Matrix{T2}
-    velocities::Matrix{T2}
-    forces::Matrix{T2}
-    neighbors::Vector{Vector{T1}}
+        (length(ids) == natoms) && (length(types) == natoms) && (length(masses) == natoms) && (length(neighbors) == natoms) ||
+            throw(ArgumentError("Size of ids, types, masses and neighbors must be equal to natoms."))
+
+        (size(positions) == (dim, natoms)) && (size(velocities) == (dim, natoms)) && (size(forces) == (dim, natoms)) ||
+            throw(ArgumentError("Size of positions, velocities, and forces arrays must be equal to dim x natoms."))
+
+        new(natoms, dim, ids, types, masses, positions, velocities, forces, neighbors)
+    end
 end
 
-Atoms{IntType <: Unsigned, FloatType <: AbstractFloat}(natoms::IntType, dim::IntType = 3) = Atoms{IntType, FloatType}(
-    natoms,
-    dim,
-    zeros(IntType, natoms),
-    zeros(IntType, natoms),
-    zeros(FloatType, dim, natoms),
-    zeros(FloatType, dim, natoms),
-    zeros(FloatType, dim, natoms),
-    fill(Vector{IntType}(), natoms),
-)
+Atoms{U, F}(natoms::Integer, dim::Integer = 3) where U <: Unsigned where F <: AbstractFloat =
+    Atoms{U, F}(
+        U(natoms),
+        U(dim),
+        zeros(U, U(natoms)),
+        zeros(U, U(natoms)),
+        ones(F, U(natoms)),
+        zeros(F, U(dim), U(natoms)),
+        zeros(F, U(dim), U(natoms)),
+        zeros(F, U(dim), U(natoms)),
+        fill(Set{U}(), U(natoms)),
+    )
