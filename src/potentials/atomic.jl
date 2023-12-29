@@ -1,11 +1,21 @@
-export AtomicPotential
+using LinearAlgebra: LinearAlgebra
+
+export force!, maxneighbordist
 
 abstract type AtomicPotential end
-# include("atomic/ljcut.jl")
-for (root, dirs, files) in walkdir("atomic")
-    if files.size == 0
-        for file in files
-            include(joinpath(root, file))
-        end
+
+function force!(atoms::Atoms, potential::AtomicPotential, timestep::AbstractFloat) end
+
+function maxneighbordist(potential::AtomicPotential, neighborskin::AbstractFloat) end
+
+function symmetricify!(mat::Matrix{T <: float})
+    (size(mat, 1) == size(mat, 2)) || throw(ArgumentError("Potential matrices must be square."))
+
+    if istriu(mat)
+        mat[:] .= Symmetric(mat, :U)
+    elseif istril(mat)
+        mat[:] .= Symmetric(mat, :L)
+    elseif issymmetric(mat)
+        throw(ArgumentError("Potential matrices must be either symmetric or triangular."))
     end
 end
