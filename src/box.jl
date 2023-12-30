@@ -17,14 +17,14 @@ struct Box{T1 <: AbstractFloat}
     bounds::Matrix{T1}
     pbc::Matrix{BoundaryCondition}
     function Box(shape::BoxShape, bounds::Matrix{T}, pbc::Matrix{BoundaryCondition}) where T <: AbstractFloat
-        any(bounds[1, :] .>= bounds[2, :]) && throw(
-            ArgumentError("Box bounds must be an nx2 matrix with bounds[1, :] < bounds[2, :]'."),
+        any(bounds[:, 1] .>= bounds[:, 2]) && throw(
+            ArgumentError("Box bounds must be a 2xn matrix with bounds[:, 1] < bounds[:, 2]'."),
         )
         (size(bounds) == size(pbc)) || throw(ArgumentError("Sizes of bounds and pbc must match."))
-        (size(bounds, 1) == 2) || throw(ArgumentError("First dimension of bounds and pbc must be 2."))
-        for col ∈ eachcol(pbc)
+        (size(bounds, 2) == 2) || throw(ArgumentError("Second dimension of bounds and pbc must be 2."))
+        for dim ∈ eachrow(pbc)
             # If exactly one of the pbcs in a given dimension is periodic, throw
-            ((col[1] == periodic) ⊻ (col[2] == periodic)) && throw(
+            ((dim[1] == periodic) ⊻ (dim[2] == periodic)) && throw(
                 ArgumentError("Box dimensions with periodic boundaries must be periodic on both sides."),
             )
         end

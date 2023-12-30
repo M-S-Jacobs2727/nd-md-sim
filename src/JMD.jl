@@ -4,6 +4,7 @@ using Distributed
 
 @everywhere include("atoms.jl")
 @everywhere include("box.jl")
+@everywhere include("region.jl")
 @everywhere include("neighbor.jl")
 @everywhere include("pbc.jl")
 
@@ -19,6 +20,5 @@ using Distributed
 @everywhere include("addatoms.jl")
 @everywhere include("velocity.jl")
 @everywhere include("verlet.jl")
-@everywhere include("input.jl")
 
 end
